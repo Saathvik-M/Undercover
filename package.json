@@ -6,7 +6,7 @@
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "prepare": "lefthook install && playwright install chromium",
+    "prepare": "node node_modules/lefthook/bin/index.js install && playwright install chromium",
     "dev": "concurrently -k -n backend,dashboard npm:dev:backend npm:dev:dashboard",
     "dev:backend": "uv run -m uvicorn backend.main:app --reload --reload-dir backend",
     "dev:dashboard": "vite dashboard",
@@ -41,7 +41,7 @@
     "eslint-plugin-sonarjs": "^4.2.1",
     "globals": "^17.12.0",
     "jsdom": "^30.1.1",
-    "lefthook": "^2.1.14",
+    "lefthook": "^2.2.2",
     "prettier": "^3.9.9",
     "pyright": "^1.1.414",
     "typescript": "6.0.3",

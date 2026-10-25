@@ -1,37 +1,42 @@
-# Brand
+# Brand Guidelines
 
 ## Fonts
 
 From Google Fonts:
 
-- **Headings and body**: Instrument Sans
-- **Accent (a tagline or a quote)**: Instrument Serif
-- **Code, numbers and identifiers**: JetBrains Mono
+- **Headings and Body**: Inter or Instrument Sans
+- **Accent (Taglines & Quotes)**: Instrument Serif
+- **Code, Numbers, and Identifiers**: JetBrains Mono
 
 ## Colors
 
-- **Primary**: Sea Green `#06D6A0`, Midnight text
-- **Secondary**: Marigold `#FFC145`, Midnight text
-- **Tertiary**: Coral `#F78C6B`, Midnight text
-- **Information**: Cerulean `#118AB2`, white text
-- **Highlight or alert**: Raspberry `#EF476F`, white text
-- **Ink on light backgrounds**: Midnight `#073B4C`
-- **Ink on dark backgrounds**: Sea Mist `#CDD8DB`
+- **Primary (Core Brand)**: Royal Blue `#1D4ED8`, White text
+- **Secondary**: Sky Blue `#3B82F6`, White text
+- **Tertiary (Accent Blue)**: Ice Blue `#93C5FD`, Onyx text
+- **Information**: Electric Blue `#0284C7`, White text
+- **Highlight / Alert**: Crimson `#E11D48`, White text
+- **Ink on light backgrounds**: Onyx `#0F172A`
+- **Ink on dark backgrounds**: Pure White `#FFFFFF` or Slate Tint `#F1F5F9`
 
-Use Sea Green, Marigold and Coral when three things sit side by side, such as a claim's states or chart series. Add Cerulean fourth and Raspberry fifth.
+When displaying data or card series side-by-side, use **Primary**, **Secondary**, and **Tertiary** sequentially. Use **Information** for fourth elements and **Highlight** sparingly for emphasis or error states.
 
 ## Surfaces
 
-- **Light mode**: page background `#F0F4F5`, white panels and cards
-- **Dark mode**: page background `#04232E`, black panels and cards
+- **Light Mode**:
+  - Page Background: Crisp Off-White `#F8FAFC`
+  - Cards & Panels: Pure White `#FFFFFF` with subtle border `#E2E8F0`
+- **Dark Mode**:
+  - Page Background: Deep Obsidian `#090D16`
+  - Cards & Panels: Jet Black `#111827` with subtle border `#1E293B`
 
-Panels are rounded with no outline. Sea Green and Marigold are too bright for small text, so darken them for headings and body text on light backgrounds and lighten them on dark ones.
+Panels feature modern, subtle rounded corners (`8px` radius). Ensure blue accents maintain at least a 4.5:1 contrast ratio against background surfaces for high legibility.
 
 ## Avoid
 
-- Borders on one edge of a panel, and thin lines across the top of the page
-- Heavy use of gradient fills
+- High-contrast drop shadows or heavy gradient fills
+- Single-edge panel borders or unnecessary divider lines
+- Decorative script fonts outside designated accent quote uses
 
 ## Tone
 
-Plain business English in US spelling. Short labels, no jargon and no exclamation marks. Money is in US dollars, such as $1,250.00.
+Clear, professional business English in US spelling. Concise labels, zero jargon, and no exclamation marks. Format all monetary values in US dollars (e.g., $1,250.00).
