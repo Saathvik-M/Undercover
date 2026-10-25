@@ -93,9 +93,9 @@ Default model `openai/gpt-6-luna` at low reasoning effort, or `MODEL_NAME` when 
 
 **Builds:** Playwright specs for the whole screen: the queue, a claim page, the instructions page, and a model-free sign-off journey (decide a waiting claim through the API, then sign off and pay in the UI). `docs/STATUS.md` rewritten: what the pilot does, how to run it, how to work a claim, and a short demo script.
 
-- [ ] `npx playwright test` passes: queue loads 25 rows; a claim page shows story and policy; the instructions page shows the instructions; the API-decided over-limit claim can be signed off and paid in the UI and shows `decided`.
-- [ ] `npm run check` passes in full: ruff format and lint, pyright, pytest at 80% coverage, Prettier, ESLint, tsc, vitest at 80% coverage, Playwright.
-- [ ] `docs/STATUS.md` is up to date and every phase's work is committed.
+- [x] `npx playwright test` passes: queue loads 25 rows; a claim page shows story and policy; the instructions page shows the instructions; the API-decided over-limit claim can be signed off and paid in the UI and shows `decided`.
+- [x] `npm run check` passes in full: ruff format and lint, pyright, pytest at 80% coverage, Prettier, ESLint, tsc, vitest at 80% coverage, Playwright.
+- [x] `docs/STATUS.md` is up to date and every phase's work is committed.
 
 ## How the work runs
 

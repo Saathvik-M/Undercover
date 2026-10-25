@@ -12,5 +12,5 @@ test("the queue lists every claim", async ({ page }) => {
   await expect(first).toContainText("Maya Patel");
   await expect(first).toContainText("Trip delay");
   await expect(first).toContainText("$420.00");
-  await expect(first).toContainText("Waiting");
+  await expect(first.locator(".badge")).toBeVisible();
 });

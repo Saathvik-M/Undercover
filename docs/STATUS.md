@@ -1,30 +1,29 @@
 # Status
 
-## Built so far
+## What the pilot does
 
-Phase 1 of the pilot (`docs/PLAN.md`):
+The pilot from `docs/SPEC.md`, built to `docs/PLAN.md`: a claims platform where the UnderCover Agent works a queue of travel insurance claims, with a dashboard for the handlers.
 
-- `backend/`: SQLite at `backend/undercover.db`, seeded from `data/` on first use. Read endpoints: health, instructions, policy wording, handlers, the claims queue and one claim in full, with its policy, plan limits, add-ons, customer and history.
+- `backend/`: FastAPI and SQLite at `backend/undercover.db` (gitignored, seeded from `data/` on first start). Read endpoints for the queue, one claim in full, the policy wording, the agent's instructions and the handlers. Workflow endpoints: run (schedules the agent in a background task), start, events, decide, pay, sign-off. The backend owns every status — `waiting`, `in progress`, `waiting for sign-off`, `decided` — and the $1,000 rule: a payment over the limit is refused with 403 until a handler signs off, and no payment can exceed the decided payout.
+- `agent/`: the UnderCover Agent on LangChain's `create_agent`, entry point `run(claim_id, thread_id)`. Five tools over the backend API only: get_claim, get_policy_wording, record_step, decide, pay. Its instructions are served by the backend from `backend/instructions.md`. GPT-6 Luna at low reasoning effort by default; set `MODEL_NAME` for another model, such as `openrouter/free`.
+- `dashboard/`: React, Vite and TypeScript. The queue at `/`, the claim at `/claims/:id` with the decision card and the agent's live steps, actions to run the agent, sign off and pay, and the instructions at `/instructions`. Polls every 3 seconds.
+- `e2e/`: Playwright tests for the queue, the claim page, the instructions page and a model-free sign-off journey.
 
-Phase 2:
-
-- `backend/`: the agent's workflow endpoints. Run (schedules the agent as a background task), start, events, decide, pay and sign-off. The backend owns every status transition and the $1,000 rule: a payment over the limit is refused with 403 until a handler signs off, and no payment can exceed the decided payout.
-
-Phase 3:
-
-- `agent/`: the UnderCover Agent. Five tools over the backend API (get_claim, get_policy_wording, record_step, decide, pay), instructions fetched from the backend, entry point `run(claim_id, thread_id)` and a CLI: `npm run agent CLM-1001`. GPT-6 Luna at low reasoning by default, or `MODEL_NAME`. Checked against the free model: it measured the delay against the plan's waiting period, worked out the payout from the receipts and paid, with the deductible correctly left out.
-
-Phase 4:
-
-- `dashboard/`: React Router shell with Inter and JetBrains Mono, the brand palette as CSS variables, a typed API client, and the claims queue at `/`: 25 claims with customer, type, amount, status badge and decision badge, polling every 3 seconds. A favicon, unit tests and an e2e test for the queue.
-
-Phase 5:
-
-- `dashboard/`: the claim page at `/claims/:id` — story, items, documents, policy with plan limits and add-ons, customer with earlier claims, the agent's decision card and live activity timeline, and the actions: Run agent, Sign off (handler select) and Pay. The instructions page at `/instructions`, read only. Unit tests for every section and action.
-
-Still to build: the e2e suite, the final checks and the handover notes.
+Nothing reads `data/evals/` or `data/security/`; the agent decides from the claim, its policy and the wording alone.
 
 ## How to run
 
-- `npm run dev` starts the backend on :8000 and the dashboard on :5173.
-- `npm run check` runs every check: Python (ruff, pyright, pytest) and TypeScript (ESLint, Prettier, tsc, vitest), then Playwright e2e.
+- `npm run dev` — backend on :8000 and dashboard on :5173.
+- `npm run agent CLM-1001` — work one claim from the command line. For the free model, first `$env:MODEL_NAME = "openrouter/free"` in PowerShell.
+- `npm run check` — every check: Python (ruff, pyright, pytest at 80% coverage), TypeScript (Prettier, ESLint, tsc, vitest at 80% coverage), Playwright e2e.
+
+## How to work a claim
+
+1. Open the queue and click a claim.
+2. Click Run agent. The agent reads the claim and the policy wording, records its steps as it works, decides, and pays approvals under the limit.
+3. If the payout is over $1,000, the payment waits: pick a handler, click Sign off, then Pay.
+
+## Notes
+
+- The e2e suite decides one real waiting claim through the API. After several runs, delete `backend/undercover.db` and restart the backend to reseed the queue.
+- A referred or declined claim is recorded and shown as decided; the pilot has no referral workflow.
