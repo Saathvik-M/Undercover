@@ -3,6 +3,7 @@
 import json
 import sqlite3
 from contextlib import closing
+from datetime import UTC, datetime
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -62,6 +63,9 @@ CREATE TABLE IF NOT EXISTS events (
 """
 
 WAITING = "waiting"
+IN_PROGRESS = "in_progress"
+WAITING_SIGNOFF = "waiting_for_signoff"
+DECIDED = "decided"
 DECISION_FIELDS = ("decision", "payout", "explanation", "policy_section")
 
 
@@ -248,3 +252,103 @@ def instructions_text() -> str:
 def handlers() -> list[dict]:
     """Return the claims handlers."""
     return _read_list("handlers.json")
+
+
+def payout_limit() -> float:
+    """Return the payout approval limit in dollars."""
+    company = json.loads((DATA_DIR / "company.json").read_text(encoding="utf-8"))
+    return float(company["payout_approval_limit"])
+
+
+def claim_brief(claim_id: str) -> dict | None:
+    """Return a claim's status, decision and sign-off, or None if unknown."""
+    with closing(connect()) as connection:
+        row = connection.execute(
+            "SELECT status, decision, payout, signed_off_by, paid_amount"
+            " FROM claims WHERE claim_id = ?",
+            (claim_id,),
+        ).fetchone()
+    return dict(row) if row else None
+
+
+def start_claim(claim_id: str) -> bool:
+    """Mark a waiting claim in progress; False if it was not waiting."""
+    with closing(connect()) as connection, connection:
+        cursor = connection.execute(
+            "UPDATE claims SET status = ? WHERE claim_id = ? AND status = ?",
+            (IN_PROGRESS, claim_id, WAITING),
+        )
+    return cursor.rowcount == 1
+
+
+def set_status(claim_id: str, status: str) -> None:
+    """Move a claim to a new status."""
+    with closing(connect()) as connection, connection:
+        connection.execute(
+            "UPDATE claims SET status = ? WHERE claim_id = ?", (status, claim_id)
+        )
+
+
+def record_step(claim_id: str, step: str) -> dict:
+    """Append one step to the claim's activity and return it."""
+    now = _now()
+    with closing(connect()) as connection, connection:
+        seq = (
+            connection.execute(
+                "SELECT COALESCE(MAX(seq), 0) FROM events WHERE claim_id = ?",
+                (claim_id,),
+            ).fetchone()[0]
+            + 1
+        )
+        connection.execute(
+            "INSERT INTO events VALUES (?, ?, ?, ?)",
+            (claim_id, seq, step, now),
+        )
+    return {"seq": seq, "step": step, "created_at": now}
+
+
+def decide(
+    claim_id: str,
+    decision: str,
+    payout: float,
+    explanation: str,
+    policy_section: str,
+) -> None:
+    """Record the agent's decision; decline and refer end the claim."""
+    status = DECIDED if decision in ("decline", "refer") else IN_PROGRESS
+    with closing(connect()) as connection, connection:
+        connection.execute(
+            "UPDATE claims SET decision = ?, payout = ?, explanation = ?,"
+            " policy_section = ?, decided_at = ?, status = ? WHERE claim_id = ?",
+            (
+                decision,
+                payout,
+                explanation,
+                policy_section,
+                _now(),
+                status,
+                claim_id,
+            ),
+        )
+
+
+def pay(claim_id: str, amount: float) -> None:
+    """Record the amount paid and end the claim."""
+    with closing(connect()) as connection, connection:
+        connection.execute(
+            "UPDATE claims SET paid_amount = ?, status = ? WHERE claim_id = ?",
+            (amount, DECIDED, claim_id),
+        )
+
+
+def signoff(claim_id: str, handler_name: str) -> None:
+    """Record the handler who signed the claim off."""
+    with closing(connect()) as connection, connection:
+        connection.execute(
+            "UPDATE claims SET signed_off_by = ? WHERE claim_id = ?",
+            (handler_name, claim_id),
+        )
+
+
+def _now() -> str:
+    return datetime.now(UTC).isoformat(timespec="seconds")

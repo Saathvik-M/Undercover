@@ -54,15 +54,15 @@ Default model `openai/gpt-6-luna` at low reasoning effort, or `MODEL_NAME` when 
 
 **Builds:** the workflow endpoints: run, start, events, decide, pay, signoff. The backend owns every status transition and the $1,000 rule. `run` schedules the agent in a background task and refuses anything not `waiting`.
 
-- [ ] `uv run pytest backend/tests -q` passes, including new tests that walk one claim through each path:
+- [x] `uv run pytest backend/tests -q` passes, including new tests that walk one claim through each path:
   - under the limit: decide approve $420, pay $420, status `decided`, `paid_amount` 420;
   - over the limit: decide approve $1,500, pay returns 403 and the status becomes `waiting for sign-off`, sign off as HND-01, pay $1,500, status `decided`;
   - decline and refer: payout recorded as 0, status `decided`;
   - guards: pay with no decision 409, pay more than the payout 409, sign off an unknown handler 404, decide with an unknown decision 422, unknown claim 404;
   - events are recorded in order and returned by the detail endpoint;
   - `run` on a non-waiting claim returns 409 (agent stubbed).
-- [ ] With the dev server running, an `Invoke-RestMethod` decide on a waiting claim, then a pay, returns the decided claim; the same on an over-limit claim shows the 403 and the sign-off path.
-- [ ] Ruff, pyright and pytest all clean.
+- [x] With the dev server running, an `Invoke-RestMethod` decide on a waiting claim, then a pay, returns the decided claim; the same on an over-limit claim shows the 403 and the sign-off path.
+- [x] Ruff, pyright and pytest all clean.
 
 ### Phase 3: The agent
 
