@@ -1,10 +1,14 @@
 # Status
 
-A hello-world skeleton with every check in place:
+## Built so far
 
-- `backend/`: one route, `GET /api/health`
-- `agent/`: the entry point `run(claim_id, thread_id)`, with one tool that calls the health route
-- `dashboard/`: one page that shows whether the backend is up
-- `e2e/`: one test of that page
+Phase 1 of the pilot (`docs/PLAN.md`):
 
-Nothing of UnderCover is built yet. Update this file as you build.
+- `backend/`: SQLite at `backend/undercover.db`, seeded from `data/` on first use. Read endpoints: health, instructions, policy wording, handlers, the claims queue and one claim in full, with its policy, plan limits, add-ons, customer and history.
+
+Still to build: the agent's workflow (decide, pay, sign-off), the agent itself, and the dashboard.
+
+## How to run
+
+- `npm run dev` starts the backend on :8000 and the dashboard on :5173.
+- `npm run check` runs every check: Python (ruff, pyright, pytest) and TypeScript (ESLint, Prettier, tsc, vitest), then Playwright e2e.
