@@ -85,9 +85,9 @@ Default model `openai/gpt-6-luna` at low reasoning effort, or `MODEL_NAME` when 
 
 **Builds:** `/claims/:id` with the story, items, documents, policy with plan and add-ons, customer history, the agent's decision card and activity timeline (polling), and the actions: Run agent, Sign off (handler select) and Pay. Plus `/instructions`, read-only.
 
-- [ ] Vitest unit tests pass: each section renders from a stubbed claim; the action buttons match the status (Run on waiting, Sign off on waiting-for-sign-off, Pay after sign-off, none on decided); the timeline renders steps; the instructions page shows the text from the API.
-- [ ] In the browser via the Playwright MCP server, on a real run with `MODEL_NAME=openrouter/free`: run the agent on a waiting claim, watch steps appear while it works, then see the decision, payout and explanation. On an over-limit claim: sign off as a handler, pay, and see it decided.
-- [ ] `npm run check:python` and `npm run check:ts` pass.
+- [x] Vitest unit tests pass: each section renders from a stubbed claim; the action buttons match the status (Run on waiting, Sign off on waiting-for-sign-off, Pay after sign-off, none on decided); the timeline renders steps; the instructions page shows the text from the API.
+- [x] In the browser via the Playwright MCP server, on a real run with `MODEL_NAME=openrouter/free`: run the agent on a waiting claim, watch steps appear while it works, then see the decision, payout and explanation. On an over-limit claim: sign off as a handler, pay, and see it decided.
+- [x] `npm run check:python` and `npm run check:ts` pass.
 
 ### Phase 6: End-to-end tests, status and handover
 

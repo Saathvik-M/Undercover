@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Badge } from "../components/Badge";
 import {
   claimTypeLabel,
   decisionLabel,
@@ -77,19 +78,17 @@ export function Queue() {
                 <td>{claimTypeLabel(claim.claim_type)}</td>
                 <td className="mono">{money(claim.amount_claimed)}</td>
                 <td>
-                  <span className={`badge ${claim.status}`}>
-                    {statusLabel(claim.status)}
-                  </span>
+                  <Badge kind={claim.status}>{statusLabel(claim.status)}</Badge>
                 </td>
                 <td>
                   {claim.decision === null ? (
                     <span className="empty">—</span>
                   ) : (
-                    <span className={`badge ${claim.decision.decision}`}>
+                    <Badge kind={claim.decision.decision}>
                       {decisionLabel(claim.decision.decision)}
                       {claim.decision.decision === "approve" &&
                         ` ${money(claim.decision.payout)}`}
-                    </span>
+                    </Badge>
                   )}
                 </td>
               </tr>

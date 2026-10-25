@@ -18,7 +18,11 @@ Phase 4:
 
 - `dashboard/`: React Router shell with Inter and JetBrains Mono, the brand palette as CSS variables, a typed API client, and the claims queue at `/`: 25 claims with customer, type, amount, status badge and decision badge, polling every 3 seconds. A favicon, unit tests and an e2e test for the queue.
 
-Still to build: the claim page with its actions, the instructions page, and the e2e suite.
+Phase 5:
+
+- `dashboard/`: the claim page at `/claims/:id` — story, items, documents, policy with plan limits and add-ons, customer with earlier claims, the agent's decision card and live activity timeline, and the actions: Run agent, Sign off (handler select) and Pay. The instructions page at `/instructions`, read only. Unit tests for every section and action.
+
+Still to build: the e2e suite, the final checks and the handover notes.
 
 ## How to run
 
