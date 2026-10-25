@@ -68,9 +68,9 @@ Default model `openai/gpt-6-luna` at low reasoning effort, or `MODEL_NAME` when 
 
 **Builds:** the agent's tools and `run()`, the finalized `backend/instructions.md`, and a CLI entry: `npm run agent CLM-1001`.
 
-- [ ] `uv run pytest -q` passes, including agent tests with the stub model: a scripted run posts a decision and a payment through the TestClient backend and the claim ends `decided`; a scripted over-limit run ends `waiting for sign-off` with a recorded step and no second pay; `run()` marks the claim in progress before it works.
-- [ ] `npm run agent CLM-1001` with `MODEL_NAME=openrouter/free` decides the claim: the API shows the decision with a payout and an explanation that names a section of the wording, and the recorded steps tell the story in order.
-- [ ] No code in `backend/` or `agent/` reads `data/evals/` or `data/security/`.
+- [x] `uv run pytest -q` passes, including agent tests with the stub model: a scripted run posts a decision and a payment through the TestClient backend and the claim ends `decided`; a scripted over-limit run ends `waiting for sign-off` with a recorded step and no second pay; `run()` marks the claim in progress before it works.
+- [x] `npm run agent CLM-1001` with `MODEL_NAME=openrouter/free` decides the claim: the API shows the decision with a payout and an explanation that names a section of the wording, and the recorded steps tell the story in order.
+- [x] No code in `backend/` or `agent/` reads `data/evals/` or `data/security/`.
 
 ### Phase 4: Dashboard shell and the queue
 

@@ -10,7 +10,11 @@ Phase 2:
 
 - `backend/`: the agent's workflow endpoints. Run (schedules the agent as a background task), start, events, decide, pay and sign-off. The backend owns every status transition and the $1,000 rule: a payment over the limit is refused with 403 until a handler signs off, and no payment can exceed the decided payout.
 
-Still to build: the agent itself, and the dashboard.
+Phase 3:
+
+- `agent/`: the UnderCover Agent. Five tools over the backend API (get_claim, get_policy_wording, record_step, decide, pay), instructions fetched from the backend, entry point `run(claim_id, thread_id)` and a CLI: `npm run agent CLM-1001`. GPT-6 Luna at low reasoning by default, or `MODEL_NAME`. Checked against the free model: it measured the delay against the plan's waiting period, worked out the payout from the receipts and paid, with the deductible correctly left out.
+
+Still to build: the dashboard.
 
 ## How to run
 
