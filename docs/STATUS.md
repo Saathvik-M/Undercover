@@ -14,7 +14,11 @@ Phase 3:
 
 - `agent/`: the UnderCover Agent. Five tools over the backend API (get_claim, get_policy_wording, record_step, decide, pay), instructions fetched from the backend, entry point `run(claim_id, thread_id)` and a CLI: `npm run agent CLM-1001`. GPT-6 Luna at low reasoning by default, or `MODEL_NAME`. Checked against the free model: it measured the delay against the plan's waiting period, worked out the payout from the receipts and paid, with the deductible correctly left out.
 
-Still to build: the dashboard.
+Phase 4:
+
+- `dashboard/`: React Router shell with Inter and JetBrains Mono, the brand palette as CSS variables, a typed API client, and the claims queue at `/`: 25 claims with customer, type, amount, status badge and decision badge, polling every 3 seconds. A favicon, unit tests and an e2e test for the queue.
+
+Still to build: the claim page with its actions, the instructions page, and the e2e suite.
 
 ## How to run
 

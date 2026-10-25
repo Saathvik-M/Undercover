@@ -76,10 +76,10 @@ Default model `openai/gpt-6-luna` at low reasoning effort, or `MODEL_NAME` when 
 
 **Builds:** the dashboard shell: Inter and JetBrains Mono from Google Fonts, the brand palette as CSS variables, a typed API client, React Router, and the queue page, polling every 3 seconds with status and decision badges and dollar formatting. The hello-world app, its test and its e2e test are replaced.
 
-- [ ] Vitest unit tests pass: the queue renders 25 rows from a stubbed fetch, badges match statuses, money renders as `$420.00`, polling stops on unmount.
-- [ ] `e2e/health.spec.ts` is replaced by a queue test: the page shows seeded claims.
-- [ ] Prettier, ESLint, tsc and vitest with coverage all pass (`npm run check:ts`).
-- [ ] In the browser via the Playwright MCP server: `/` shows the queue styled to `docs/BRAND.md` (off-white page, white cards, 8px corners, royal blue primary, mono ids).
+- [x] Vitest unit tests pass: the queue renders 25 rows from a stubbed fetch, badges match statuses, money renders as `$420.00`, polling stops on unmount.
+- [x] `e2e/health.spec.ts` is replaced by a queue test: the page shows seeded claims.
+- [x] Prettier, ESLint, tsc and vitest with coverage all pass (`npm run check:ts`).
+- [x] In the browser via the Playwright MCP server: `/` shows the queue styled to `docs/BRAND.md` (off-white page, white cards, 8px corners, royal blue primary, mono ids).
 
 ### Phase 5: Claim page, actions and instructions page
 
