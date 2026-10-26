@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 export function App() {
-  const [status, setStatus] = useState("checking");
-
-  useEffect(() => {
-    void fetch("/api/health")
-      .then((response) => (response.ok ? "up" : "down"))
-      .catch(() => "down")
-      .then(setStatus);
-  }, []);
-
   return (
-    <main>
-      <h1>UnderCover</h1>
-      <p>Backend: {status}</p>
-    </main>
+    <div className="shell">
+      <header className="topbar">
+        <Link to="/" className="brand">
+          UnderCover
+        </Link>
+        <nav className="nav">
+          <NavLink to="/" end>
+            Queue
+          </NavLink>
+          <NavLink to="/instructions">Agent instructions</NavLink>
+        </nav>
+      </header>
+      <Outlet />
+    </div>
   );
 }
